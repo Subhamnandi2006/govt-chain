@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aadhaar Identity Registry | UIDAI Simulated Node</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .uidai-header {
+      background: #0f172a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 4px solid #059669;
+    }
+
+    .uidai-hero {
+      background: linear-gradient(135deg, #065f46, #059669);
+      color: white;
+      padding: 2.2rem 2rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: -1.5rem auto 4rem;
+      padding: 0 1.5rem;
+    }
+
+    .tabs {
+      display: flex;
+      background: #ffffff;
+      border-radius: 8px 8px 0 0;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-btn.active {
+      color: #059669;
+      border-bottom-color: #059669;
+      background: #ffffff;
+    }
+
+    .tab-content {
+      background: #ffffff;
+      padding: 2rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card-id {
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div
+    style="background: #0f172a; color: #94a3b8; padding: 6px 2rem; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div>🏛️ Independent Govt Department Node • Online</div>
+    <a href="http://localhost:3000" target="_blank" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
+      ← Back to Gov-Chain Concierge
+    </a>
+  </div>
+
+
+  <header class="uidai-header">
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <i class="fa-solid fa-id-card" style="font-size: 1.8rem; color: #34d399;"></i>
+      <div>
+        <h1 style="font-size: 1.15rem; font-weight: 700;">Unique Identification Authority of India</h1>
+        <p style="font-size: 0.74rem; color: #94a3b8;">Gov-Chain Citizen Identity Registry Node</p>
+      </div>
+    </div>
+    <span style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem;">
+      Node ID: UIDAI-NODE-01
+    </span>
+  </header>
+
+  <section class="uidai-hero">
+    <h2 style="font-size: 1.6rem; margin-bottom: 0.4rem;">Resident Identity Verification & Enrollment</h2>
+    <p style="font-size: 0.92rem; opacity: 0.9;">Secure biometric and demographic identity simulator</p>
+  </section>
+
+  <main class="container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchAadhaarTab(event, 'viewTab')">
+        <i class="fa-solid fa-magnifying-glass"></i> Resident Identity Lookup
+      </button>
+      <button class="tab-btn" onclick="switchAadhaarTab(event, 'enrollTab')">
+        <i class="fa-solid fa-user-plus"></i> New Resident Enrollment
+      </button>
+    </div>
+
+    <!-- TAB 1: LOOKUP -->
+    <div id="viewTab" class="tab-content active">
+      <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+        <input type="text" id="lookupId" value="123456789012" placeholder="Enter 12-digit Aadhaar Number"
+          style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem;" />
+        <button onclick="lookupAadhaar()"
+          style="background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+          Verify Record
+        </button>
+      </div>
+
+      <div id="aadhaarResult" class="card-id">
+        <div style="display: flex; gap: 18px; align-items: flex-start;">
+          <img id="resPhoto"
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250"
+            style="width: 100px; height: 115px; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1;" />
+          <div style="flex: 1; line-height: 1.7;">
+            <div style="display: flex; justify-content: space-between;">
+              <strong id="resName" style="font-size: 1.15rem; color: #0f172a;">Srinjoy Roy</strong>
+              <span
+                style="background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">VERIFIED
+                RESIDENT</span>
+            </div>
+            <div><strong>Aadhaar:</strong> <span id="resNum">1234 5678 9012</span></div>
+            <div><strong>DOB / Gender:</strong> <span id="resDob">2002-08-15</span> / <span id="resGender">Male</span>
+            </div>
+            <div><strong>Phone:</strong> <span id="resPhone">9876543210</span></div>
+            <div><strong>Address:</strong> <span id="resAddress">12/A Salt Lake Sector V, Kolkata, West Bengal -
+                700091</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ENROLL -->
+    <div id="enrollTab" class="tab-content">
+      <form onsubmit="event.preventDefault(); enrollAadhaar();"
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">Full Name</label>
+          <input type="text" id="enName" placeholder="Full Name" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">Date of Birth</label>
+          <input type="date" id="enDob" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">Gender</label>
+          <select id="enGender" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">Phone Number</label>
+          <input type="text" id="enPhone" placeholder="10 Digits" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <div style="grid-column: span 2;">
+          <label style="font-size: 0.8rem; font-weight: 700;">Street Address</label>
+          <input type="text" id="enStreet" placeholder="Street Address" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">City</label>
+          <input type="text" id="enCity" placeholder="City" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 700;">State</label>
+          <input type="text" id="enState" value="West Bengal" required
+            style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+        <button type="submit"
+          style="grid-column: span 2; background: #059669; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
+          Enroll Resident & Sync with Revenue Registry
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function switchAadhaarTab(e, tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    async function lookupAadhaar() {
+      const id = document.getElementById('lookupId').value.trim();
+      try {
+        const res = await fetch(`/api/aadhaar/${id}`);
+        const data = await res.json();
+        if (data.success && data.data) {
+          const u = data.data;
+          document.getElementById('resName').textContent = u.fullName;
+          document.getElementById('resNum').textContent = u.aadhaarNumber;
+          document.getElementById('resDob').textContent = u.dob;
+          document.getElementById('resGender').textContent = u.gender;
+          document.getElementById('resPhone').textContent = u.phone;
+          document.getElementById('resAddress').textContent = `${u.address.street}, ${u.address.city}, ${u.address.state} - ${u.address.pincode}`;
+        } else {
+          alert("Resident record not found.");
+        }
+      } catch (err) {
+        alert("Server error connecting to Aadhaar node.");
+      }
+    }
+
+    async function enrollAadhaar() {
+      const payload = {
+        fullName: document.getElementById('enName').value,
+        dob: document.getElementById('enDob').value,
+        gender: document.getElementById('enGender').value,
+        phone: document.getElementById('enPhone').value,
+        street: document.getElementById('enStreet').value,
+        city: document.getElementById('enCity').value,
+        state: document.getElementById('enState').value,
+        pincode: "700091"
+      };
+
+      const res = await fetch('/api/aadhaar/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Resident Enrolled!\n\nAssigned Aadhaar: ${data.aadhaarNumber}\nLinked Revenue Certificate generated.`);
+        document.getElementById('lookupId').value = data.aadhaarNumber;
+        lookupAadhaar();
+        switchAadhaarTab({ currentTarget: document.querySelectorAll('.tab-btn')[0] }, 'viewTab');
+      }
+    }
+  </script>
+
+  <!-- Universal Script (Loads Co-Pilot) -->
+  <script src="app.js"></script>
+</body>
+
+</html>

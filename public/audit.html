@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance & Audit Logs | DPDP Cryptographic Ledger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .audit-header {
+            background: #0f172a;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #7e22ce;
+        }
+
+        .audit-hero {
+            background: linear-gradient(135deg, #581c87, #7e22ce);
+            color: white;
+            padding: 2.2rem 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: -1.5rem auto 4rem;
+            padding: 0 1.5rem;
+        }
+
+        .ledger-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .audit-table th,
+        .audit-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .audit-table th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .badge-consent {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.72rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="audit-header">
+        <div
+            style="background: #0f172a; color: #94a3b8; padding: 6px 2rem; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <div>🏛️ Independent Govt Department Node • Online</div>
+            <a href="http://localhost:3000" target="_blank"
+                style="color: #38bdf8; text-decoration: none; font-weight: 600;">
+                ← Back to Gov-Chain Concierge
+            </a>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="fa-solid fa-clipboard-check" style="font-size: 1.8rem; color: #c084fc;"></i>
+            <div>
+                <h1 style="font-size: 1.15rem; font-weight: 700;">DPDP Compliance & Inter-Departmental Ledger</h1>
+                <p style="font-size: 0.74rem; color: #94a3b8;">Immutable Audit Trail & Cryptographic Verification</p>
+            </div>
+        </div>
+        <span style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem;">
+            DPDP Act 2023 Verified
+        </span>
+    </header>
+
+    <section class="audit-hero">
+        <h2 style="font-size: 1.6rem; margin-bottom: 0.4rem;">Zero-Knowledge Orchestration Ledger</h2>
+        <p style="font-size: 0.92rem; opacity: 0.9;">Tracks citizen consent, cross-node verifications, and scheme
+            submissions</p>
+    </section>
+
+    <main class="container">
+        <div class="ledger-card">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                <input type="text" id="searchInput" onkeyup="filterLogs()"
+                    placeholder="Search applicant, Aadhaar token, or event type..."
+                    style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem;" />
+                <button onclick="fetchAuditLogs()"
+                    style="background: #7e22ce; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-rotate"></i> Refresh Ledger
+                </button>
+            </div>
+
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Event</th>
+                        <th>Citizen / Beneficiary</th>
+                        <th>Masked Aadhaar</th>
+                        <th>Consent Status</th>
+                        <th>Outcome</th>
+                    </tr>
+                </thead>
+                <tbody id="auditTableBody">
+                    <!-- Dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        let cachedLogs = [];
+
+        async function fetchAuditLogs() {
+            try {
+                const res = await fetch('/api/audit-logs');
+                const data = await res.json();
+                if (data.success && data.logs) {
+                    cachedLogs = data.logs;
+                    renderLogs(cachedLogs);
+                }
+            } catch (err) {
+                console.error("Failed to fetch logs", err);
+            }
+        }
+
+        function renderLogs(logs) {
+            const tbody = document.getElementById('auditTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = logs.map(l => `
+        <tr>
+          <td style="color:#64748b; font-family:'JetBrains Mono',monospace;">${l.timestamp}</td>
+          <td><strong>${l.event}</strong></td>
+          <td>${l.applicant}</td>
+          <td style="font-family:'JetBrains Mono',monospace;">${l.aadhaarRef}</td>
+          <td><span class="badge-consent">${l.consentGranted ? 'CONSENT_GRANTED' : 'DIRECT_SUBMIT'}</span></td>
+          <td style="color:#059669; font-weight:600;">${l.outcome}</td>
+        </tr>
+      `).join('');
+        }
+
+        function filterLogs() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = cachedLogs.filter(l =>
+                l.event.toLowerCase().includes(term) ||
+                l.applicant.toLowerCase().includes(term) ||
+                l.aadhaarRef.toLowerCase().includes(term)
+            );
+            renderLogs(filtered);
+        }
+
+        // Initial load
+        fetchAuditLogs();
+    </script>
+
+    <!-- Universal Script (Loads Co-Pilot) -->
+    <script src="app.js"></script>
+</body>
+
+</html>

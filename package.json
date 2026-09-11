@@ -1,14 +1,16 @@
 {
-  "name": "govt-chain-sih",
+  "name": "govchain-portal",
   "version": "1.0.0",
-  "description": "AI-Driven Interoperability Orchestration Layer for Government Services",
+  "description": "Gov-Chain Decentralized Citizen Portal and Integrated Services",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "serverless-http": "^4.0.0"
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

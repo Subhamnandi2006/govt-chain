@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Officer Login | Gov-Chain Administration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .login-container {
+      max-width: 440px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+    .login-card {
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12);
+      text-align: center;
+    }
+    .form-group {
+      text-align: left;
+      margin-top: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+    .login-btn {
+      width: 100%;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-btn:hover {
+      background: #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <a href="/" class="nav-brand">
+      <div class="brand-icon"><i class="fa-solid fa-cube"></i></div>
+      <div>
+        <div class="brand-title">Gov-Chain</div>
+        <div class="brand-sub">Inter-Departmental Consent & Identity Layer</div>
+      </div>
+    </a>
+    <a href="/" class="nav-link-btn"><i class="fa-solid fa-house"></i> Home</a>
+  </header>
+
+  <main class="login-container">
+    <div class="login-card">
+      <div style="width: 54px; height: 54px; background: #eff6ff; color: #1d4ed8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.4rem;">
+        <i class="fa-solid fa-user-shield"></i>
+      </div>
+      <h2 style="font-size: 1.4rem; color: #0f172a;">Department Officer Access</h2>
+      <p style="font-size: 0.82rem; color: #64748b; margin-top: 4px;">Sign in to inspect nodes, authorize keys, and manage ledgers</p>
+
+      <form onsubmit="event.preventDefault(); window.location.href='/audit.html';">
+        <div class="form-group">
+          <label>Government Service ID / Email</label>
+          <input type="text" value="officer.saltlake@wb.gov.in" required />
+        </div>
+        <div class="form-group">
+          <label>Security PIN / Password</label>
+          <input type="password" value="••••••••••••" required />
+        </div>
+        <button type="submit" class="login-btn">
+          Authenticate with Smart Token
+        </button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

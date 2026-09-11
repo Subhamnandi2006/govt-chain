@@ -1,232 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Govt Chain | AI Interoperability Service Layer</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Gov-Chain | Citizen AI Orchestration Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+  <!-- Ambient Soothing Glow Orbs -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
 
   <!-- Top Navigation Bar -->
   <header class="navbar">
-    <div class="nav-brand">
-      <i class="fa-solid fa-link brand-icon"></i>
+    <a href="/" class="nav-brand">
+      <div class="brand-icon">
+        <i class="fa-solid fa-cube"></i>
+      </div>
       <div>
-        <h1 class="brand-title">Govt Chain</h1>
-        <p class="brand-sub" data-i18n="brand_sub">National Interoperability & Service Orchestration Layer</p>
+        <div class="brand-title">Gov-Chain</div>
+        <div class="brand-sub">Inter-Departmental Consent & Identity Layer</div>
       </div>
-    </div>
-    <div class="nav-actions">
-      <select id="languageSelect" class="lang-select" onchange="changeLanguage(this.value)">
-        <option value="en">English (India)</option>
-        <option value="hi">हिन्दी (Hindi)</option>
-        <option value="bn">বাংলা (Bengali)</option>
-        <option value="mr">मराठी (Marathi)</option>
-      </select>
-      <div id="userProfile" class="user-pill">
-        <i class="fa-solid fa-user-circle"></i>
-        <span id="userNameDisplay" data-i18n="citizen_portal">Citizen Portal</span>
+    </a>
+
+    <div class="nav-menu">
+      <!-- Services Dropdown (Opens new tabs) -->
+      <div class="dropdown">
+        <button class="dropdown-trigger" id="servicesDropdownBtn" type="button">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Services</span>
+          <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+        </button>
+        <!-- Services Dropdown (Directs to independent websites) -->
+        <div class="dropdown-menu" id="servicesDropdown">
+          <a class="dropdown-item" href="/scholarship" target="_blank" rel="noopener noreferrer">Scholarship Portal</a>
+            <div class="dropdown-icon blue"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="dropdown-info">
+              <div class="dropdown-title">Scholarship Application</div>
+              <div class="dropdown-desc">Direct Benefit Transfer</div>
+            </div>
+          </a>
+          <a class="dropdown-item" href="/aadhaar" target="_blank" rel="noopener noreferrer">Aadhaar Portal</a>
+            <div class="dropdown-icon green"><i class="fa-solid fa-id-card"></i></div>
+            <div class="dropdown-info">
+              <div class="dropdown-title">Aadhaar Identity Registry</div>
+              <div class="dropdown-desc">UIDAI Resident Node</div>
+            </div>
+          </a>
+          <a class="dropdown-item" href="/income" target="_blank" rel="noopener noreferrer">Income Certificate</a>
+            <div class="dropdown-icon amber"><i class="fa-solid fa-landmark"></i></div>
+            <div class="dropdown-info">
+              <div class="dropdown-title">Revenue & Income Portal</div>
+              <div class="dropdown-desc">State e-District Authority</div>
+            </div>
+          </a>
+          <a class="dropdown-item" href="/audit" target="_blank" rel="noopener noreferrer">Audit Ledger</a>
+            <div class="dropdown-icon purple"><i class="fa-solid fa-clipboard-check"></i></div>
+            <div class="dropdown-info">
+              <div class="dropdown-title">Compliance & Audit Trail</div>
+              <div class="dropdown-desc">DPDP Ledger</div>
+            </div>
+          </a>
+        </div>
       </div>
+
+
+      <a href="/login.html" class="nav-link-btn">
+        <i class="fa-solid fa-user-shield"></i> Officer Login
+      </a>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="view-tabs">
-    <button class="tab-btn active" onclick="switchView('orchestrator')">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="tab_orchestrator">Govt Chain (Orchestrator)</span>
-    </button>
-    <a href="/aadhar.html" target="_blank" class="tab-btn" style="text-decoration: none;">
-      <i class="fa-solid fa-id-card"></i> <span data-i18n="tab_aadhaar">1. UIDAI Aadhaar Portal</span> <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
-    </a>
-    <a href="/income.html" target="_blank" class="tab-btn" style="text-decoration: none;">
-      <i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="tab_income">2. State Revenue Portal</span> <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
-    </a>
-    <a href="/scholarship.html" target="_blank" class="tab-btn" style="text-decoration: none;">
-      <i class="fa-solid fa-graduation-cap"></i> <span data-i18n="tab_scholarship">3. Scholarship Portal</span> <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
-    </a>
-    <button class="tab-btn" onclick="switchView('audit')">
-      <i class="fa-solid fa-clipboard-list"></i> <span data-i18n="tab_audit">Compliance & Audit Logs</span>
-    </button>
-  </nav>
+  <!-- Homepage Hero Section -->
+  <main class="home-hero">
+    <div class="trust-badge">
+      <span class="badge-pulse"></span>
+      <i class="fa-solid fa-shield-heart"></i>
+      <span>DPDP Act 2023 Compliant • Zero-Knowledge Exchange</span>
+    </div>
 
-  <!-- Main Container -->
-  <main class="main-container">
+    <h1 class="hero-title">
+      Government Services, <span class="gradient-text">Unified & Intelligent</span>
+    </h1>
 
-    <!-- VIEW 1: GOVT CHAIN ORCHESTRATOR -->
-    <section id="view-orchestrator" class="view-section active">
-      <div class="hero-banner">
-        <h2 data-i18n="hero_title">One Request → Unified Public Delivery</h2>
-        <p data-i18n="hero_desc">No repeated data entry. Govt Chain connects verified state registries with human-in-the-loop consent.</p>
-      </div>
-
-      <div class="split-layout">
-        
-        <!-- Left: AI Assistant (Voice & Chat) -->
-        <div class="ai-assistant-card">
-          <div class="assistant-header">
-            <div class="assistant-info">
-              <span class="bot-badge"><i class="fa-solid fa-robot"></i> AI</span>
-              <div>
-                <h3 data-i18n="assistant_title">Govt Chain Voice Assistant</h3>
-                <p class="online-indicator"><span class="dot"></span> <span data-i18n="ready_assist">Ready to assist</span></p>
-              </div>
-            </div>
-            <button id="voiceBtn" class="voice-toggle-btn" title="Click to speak">
-              <i class="fa-solid fa-microphone"></i>
-              <span id="voiceStatusText" data-i18n="voice_assist">Voice Assist</span>
-            </button>
-          </div>
-
-          <div id="chatMessages" class="chat-messages">
-            <div class="message bot">
-              <p id="initialBotGreeting" data-i18n="bot_welcome">Welcome to <strong>Govt Chain</strong>! I can help you apply for student scholarships, verify documents, and fetch your government records automatically.</p>
-              <div class="quick-chips">
-                <button onclick="sendQuickMessage('apply_scholarship')" data-i18n="chip_scholarship">Apply for Scholarship</button>
-                <button onclick="sendQuickMessage('check_docs')" data-i18n="chip_docs">Check Documents</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-input-row">
-            <input type="text" id="chatInput" placeholder="Type or click Voice Assist to speak..." data-i18n-placeholder="chat_placeholder" />
-            <button id="sendBtn" onclick="handleUserSend()"><i class="fa-solid fa-paper-plane"></i></button>
-          </div>
-        </div>
-
-        <!-- Right: Interactive Scholarship Form -->
-        <div class="form-card">
-          <div class="form-header">
-            <h3 data-i18n="form_title">Scholarship Application (Higher Education Dept)</h3>
-            <span class="badge" id="formStatusBadge" data-i18n="badge_awaiting">Awaiting Intent</span>
-          </div>
-
-          <div class="auto-fill-notice" id="autoFillAlert" style="display: none;">
-            <i class="fa-solid fa-circle-check"></i>
-            <span data-i18n="autofill_notice">Data fetched securely via Govt Chain interoperability layer.</span>
-          </div>
-
-          <form id="scholarshipForm" onsubmit="event.preventDefault(); submitScholarshipForm();">
-            
-            <div class="form-grid">
-              
-              <div class="form-group full-width">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                  <label style="margin-bottom:0;" data-i18n="label_aadhaar">Aadhaar Number (12 Digits)</label>
-                  <select id="citizenDropdown" onchange="document.getElementById('aadhaarNumber').value = this.value;" style="padding:4px 8px; font-size:0.75rem; border-radius:4px; border:1px solid #cbd5e1;">
-                    <option value="123456789012" data-i18n="pick_citizen">-- Pick an Enrolled Citizen --</option>
-                  </select>
-                </div>
-                <input type="text" id="aadhaarNumber" value="123456789012" placeholder="e.g. 123456789012" />
-              </div>
-
-              <div class="form-group">
-                <label><span data-i18n="label_name">Full Name</span> <span class="tag-origin" id="tag-name"></span></label>
-                <input type="text" id="fullName" placeholder="Applicant Name" />
-              </div>
-
-              <div class="form-group">
-                <label><span data-i18n="label_dob">Date of Birth</span> <span class="tag-origin" id="tag-dob"></span></label>
-                <input type="date" id="dob" />
-              </div>
-
-              <div class="form-group">
-                <label data-i18n="label_phone">Mobile Number</label>
-                <input type="text" id="phone" placeholder="10 digit number" />
-              </div>
-
-              <div class="form-group">
-                <label><span data-i18n="label_income">Annual Family Income (₹)</span> <span class="tag-origin" id="tag-income"></span></label>
-                <input type="number" id="annualIncome" placeholder="e.g. 120000" />
-              </div>
-
-              <div class="form-group full-width">
-                <label><span data-i18n="label_cert">Income Certificate No.</span> <span class="tag-origin" id="tag-cert"></span></label>
-                <input type="text" id="incomeCertNo" placeholder="Certificate reference" />
-              </div>
-
-              <div class="form-group full-width">
-                <label><span data-i18n="label_address">Permanent Address</span> <span class="tag-origin" id="tag-address"></span></label>
-                <textarea id="address" rows="2" placeholder="Street, City, State, PIN"></textarea>
-              </div>
-
-              <!-- Missing field from Aadhaar & Income -->
-              <div class="form-group highlight-field">
-                <label><span data-i18n="label_father">Father's / Guardian's Occupation</span> <span class="required" data-i18n="not_in_registry">* (Not in Registry)</span></label>
-                <input type="text" id="fatherOccupation" placeholder="e.g. Farmer / Private Service / Business" required />
-                <small class="helper-text" data-i18n="helper_occupation">This information was absent from registries; please supply it.</small>
-              </div>
-
-              <div class="form-group">
-                <label data-i18n="label_college">College / Institution Name</label>
-                <input type="text" id="collegeName" value="Techno Main Salt Lake" />
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" class="btn-secondary" onclick="resetForm()" data-i18n="btn_clear">Clear</button>
-              <button type="submit" class="btn-primary" id="submitAppBtn" disabled>
-                <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_submit">Review & Submit</span>
-              </button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- VIEW 2: AUDIT TRAIL LOGS -->
-    <section id="view-audit" class="view-section">
-      <div class="portal-box">
-        <h2 data-i18n="audit_title">System Interoperability Audit & Consent Trail</h2>
-        <p data-i18n="audit_desc">Every single automated query through Govt Chain is digitally signed, consent-verified, and logged.</p>
-        
-        <table class="audit-table">
-          <thead>
-            <tr>
-              <th data-i18n="th_time">Timestamp</th>
-              <th data-i18n="th_event">Event</th>
-              <th data-i18n="th_applicant">Applicant</th>
-              <th data-i18n="th_aadhaar">Aadhaar Linked</th>
-              <th data-i18n="th_income">Income Certificate</th>
-              <th data-i18n="th_consent">Consent Verified</th>
-              <th data-i18n="th_outcome">Outcome</th>
-            </tr>
-          </thead>
-          <tbody id="auditTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-
+    <p class="hero-subtitle">
+      Eliminate manual paperwork and endless queues. Apply for state benefits using verified consent tokens, instant
+      registry auto-fill, and automated compliance.
+    </p>
   </main>
 
-  <!-- CONSENT MODAL -->
-  <div id="consentModal" class="modal-backdrop">
-    <div class="modal-box">
-      <div class="modal-header">
-        <i class="fa-solid fa-shield-halved security-icon"></i>
-        <h3 data-i18n="modal_title">Citizen Data Consent Request</h3>
-      </div>
-      <div class="modal-body">
-        <p data-i18n="modal_desc">To proceed with your <strong>Higher Education Scholarship</strong>, Govt Chain requires your authorization to fetch verified records from:</p>
-        <ul class="data-points-list">
-          <li><i class="fa-solid fa-check"></i> <strong data-i18n="modal_aadhaar_pt">UIDAI Aadhaar:</strong> <span data-i18n="modal_aadhaar_desc">Full Name, Date of Birth, Permanent Address</span></li>
-          <li><i class="fa-solid fa-check"></i> <strong data-i18n="modal_income_pt">e-District Revenue:</strong> <span data-i18n="modal_income_desc">Annual Family Income, Verified Certificate Reference</span></li>
-        </ul>
-        <div class="consent-warning">
-          <i class="fa-solid fa-lock"></i> <span data-i18n="modal_lock">Data is encrypted in transit and never stored on third-party servers.</span>
+  <!-- Centered Homepage AI Voice Assistant -->
+  <section class="chat-container">
+    <div class="chat-box">
+      <div class="chat-header">
+        <div class="chat-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-ping"></span>
+          </div>
+          <div>
+            <div class="assistant-name">Gov-Chain AI Concierge</div>
+            <div class="assistant-state">Active • English & Regional Indian Speech</div>
+          </div>
+        </div>
+
+        <!-- Voice Soundwave Animation Indicator -->
+        <div class="soundwave-wrapper" title="Voice assistant ready">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+          <span class="bar bar-4"></span>
+          <span class="soundwave-text">Voice Enabled</span>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="rejectConsent()" data-i18n="btn_deny">Deny</button>
-        <button class="btn-primary" onclick="acceptConsent()">
-          <i class="fa-solid fa-signature"></i> <span data-i18n="btn_grant">Grant Consent & Auto-Fill</span>
+
+      <!-- Messages Stream -->
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+          <div class="bot-avatar">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="message-content">
+            <p><strong>Namaste!</strong> I am your citizen service partner.</p>
+            <p style="margin-top: 6px;">
+              You can say <em>"Apply for Scholarship"</em>, <em>"Open Aadhaar Portal"</em>, or click one of the quick
+              suggestions below to begin.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggestion Chips -->
+      <div class="quick-chips-wrapper">
+        <button class="quick-chip" onclick="sendQuickMessage('Apply for Post-Matric Scholarship')">
+          <i class="fa-solid fa-graduation-cap"></i> Apply for Scholarship
+        </button>
+        <button class="quick-chip" onclick="sendQuickMessage('Open Aadhaar Identity Portal')">
+          <i class="fa-solid fa-id-card"></i> Aadhaar Portal
+        </button>
+        <button class="quick-chip" onclick="sendQuickMessage('Verify Income Certificate')">
+          <i class="fa-solid fa-file-invoice"></i> Revenue Portal
+        </button>
+        <button class="quick-chip" onclick="sendQuickMessage('Show me compliance audit logs')">
+          <i class="fa-solid fa-receipt"></i> Audit Trail
+        </button>
+      </div>
+
+      <!-- Text and Voice Input Bar -->
+      <div class="chat-input-bar">
+        <button class="voice-btn" id="voiceBtn" title="Speak to assistant" type="button">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+        <input type="text" id="chatInput" placeholder="Ask anything or request a service by typing or voice..." />
+        <button class="send-btn" id="sendBtn" onclick="handleUserSend()" title="Send Message">
+          <i class="fa-solid fa-paper-plane"></i>
         </button>
       </div>
     </div>
-  </div>
 
+    <!-- Trust & Feature Pillars below chat -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+        <h3>Instant Auto-Fill</h3>
+        <p>One-click token retrieval pulls verified biometric and income data without re-typing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+        <h3>Zero-Knowledge Proofs</h3>
+        <p>Portals verify eligibility criteria without storing or exposing raw personal credentials.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-fingerprint"></i></div>
+        <h3>Immutable DPDP Ledger</h3>
+        <p>Every data-access request is cryptographically stamped for complete citizen privacy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Universal Script -->
   <script src="app.js"></script>
 </body>
+
 </html>

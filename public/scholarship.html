@@ -1,170 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MahaDBT / National Scholarship Portal (Simulator)</title>
+  <title>Scholarship Portal | Department of Higher Education</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-    body { background-color: #f1f5f9; color: #1e293b; min-height: 100vh; }
-    
-    .top-strip {
+    .scholar-header {
       background: #0f172a;
-      color: #94a3b8;
-      padding: 6px 2rem;
-      font-size: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-    }
-    .gov-header {
-      background: #ffffff;
+      color: white;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 4px solid #059669;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-bottom: 4px solid #1d4ed8;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand i { font-size: 2.2rem; color: #059669; }
-    .brand h1 { font-size: 1.2rem; color: #0f172a; }
-    .brand p { font-size: 0.75rem; color: #64748b; }
 
-    .hero {
-      background: linear-gradient(135deg, #065f46, #059669);
+    .scholar-hero {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
       color: white;
-      padding: 2rem;
+      padding: 2.2rem 2rem;
       text-align: center;
     }
-    .hero h2 { font-size: 1.5rem; margin-bottom: 4px; }
-    .hero p { font-size: 0.9rem; opacity: 0.9; }
 
-    .container {
-      max-width: 850px;
-      margin: -1.5rem auto 3rem;
+    .scholar-container {
+      max-width: 820px;
+      margin: -1.5rem auto 4rem;
       padding: 0 1.5rem;
     }
-    .card {
-      background: white;
+
+    .form-card {
+      background: #ffffff;
       padding: 2rem;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid #cbd5e1;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
     }
-    .notice {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      color: #065f46;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+
+    .alert-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
       margin-bottom: 1.5rem;
       display: flex;
+      gap: 12px;
       align-items: center;
-      gap: 10px;
     }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 1.25rem;
     }
-    .form-group.full { grid-column: span 2; }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
     .form-group label {
       display: block;
       font-size: 0.82rem;
       font-weight: 700;
-      margin-bottom: 5px;
       color: #334155;
+      margin-bottom: 6px;
     }
+
     .form-group input {
       width: 100%;
-      padding: 10px;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
     }
-    .btn-apply {
-      background: #059669;
+
+    .form-group input:focus {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+
+    .submit-btn {
+      margin-top: 1.5rem;
+      width: 100%;
+      background: #1d4ed8;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: 700;
-      border-radius: 6px;
       cursor: pointer;
-      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
     }
-    .btn-apply:hover { background: #047857; }
+
+    .submit-btn:hover {
+      background: #1e40af;
+    }
   </style>
 </head>
+
 <body>
 
-  <div class="top-strip">
-    <span>Department of Higher & Technical Education | MahaDBT Portal</span>
-    <a href="/" style="color:#34d399; text-decoration:none; font-weight:700;">
-      <i class="fa-solid fa-arrow-left"></i> Back to Govt Chain
+  <div
+    style="background: #0f172a; color: #94a3b8; padding: 6px 2rem; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div>🏛️ Independent Govt Department Node • Online</div>
+    <a href="http://localhost:3000" target="_blank" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
+      ← Back to Gov-Chain Concierge
     </a>
   </div>
 
-  <header class="gov-header">
-    <div class="brand">
-      <i class="fa-solid fa-graduation-cap"></i>
+
+  <!-- Top Strip -->
+  <header class="scholar-header">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <i class="fa-solid fa-graduation-cap" style="font-size: 1.8rem; color: #38bdf8;"></i>
       <div>
-        <h1>State Scholarship & Merit Grant Portal</h1>
-        <p>Direct Benefit Transfer (DBT) Service Node (Mock Simulator)</p>
+        <h1 style="font-size: 1.15rem; font-weight: 700;">Department of Higher Education</h1>
+        <p style="font-size: 0.74rem; color: #94a3b8;">National Scholarship Portal — Govt. of India</p>
       </div>
     </div>
-    <span style="background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:700; padding:5px 10px; border-radius:4px;">
-      NODE ID: DBT-SCHOLAR-09
+    <span style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem;">
+      Scheme Code: DBT-SCHOLAR-2026
     </span>
   </header>
 
-  <div class="hero">
-    <h2>Post-Matric Scholarship Scheme (2025–26)</h2>
-    <p>Financial assistance for post-secondary education of eligible students.</p>
-  </div>
+  <section class="scholar-hero">
+    <h2 style="font-size: 1.6rem; margin-bottom: 0.4rem;">Post-Matric Scholarship Scheme (2025–26)</h2>
+    <p style="font-size: 0.92rem; opacity: 0.9;">Direct Benefit Transfer for eligible university and college students
+    </p>
+  </section>
 
-  <div class="container">
-    <div class="card">
-      <div class="notice">
-        <i class="fa-solid fa-circle-info"></i>
-        <span>This is the legacy standalone portal requiring manual document entry. Using <strong>Govt Chain</strong> auto-populates this form with verified biometric identity and income certificates.</span>
+  <main class="scholar-container">
+    <div class="form-card">
+      <div class="alert-banner">
+        <i class="fa-solid fa-circle-info" style="font-size: 1.2rem;"></i>
+        <div>
+          <strong>Gov-Chain Co-Pilot Active:</strong> Click the floating co-pilot in the bottom right and select
+          <strong>⚡ Auto-fill Form</strong> to pull verified Aadhaar and Income records.
+        </div>
       </div>
 
-      <form onsubmit="event.preventDefault(); submitDirectScholarship();">
+      <form id="scholarshipForm" onsubmit="event.preventDefault(); submitDirectScholarship();">
         <div class="form-grid">
           <div class="form-group full">
-            <label>Aadhaar Number (12 Digits)</label>
+            <label for="schAadhaar">Aadhaar Number (12 Digits)</label>
             <input type="text" id="schAadhaar" value="123456789012" required />
           </div>
           <div class="form-group">
-            <label>Applicant Full Name</label>
+            <label for="schName">Applicant Full Name</label>
             <input type="text" id="schName" placeholder="Full Name" required />
           </div>
           <div class="form-group">
-            <label>Annual Family Income (₹)</label>
+            <label for="schIncome">Annual Family Income (₹)</label>
             <input type="number" id="schIncome" placeholder="e.g. 120000" required />
           </div>
           <div class="form-group">
-            <label>Income Certificate No.</label>
+            <label for="schCert">Income Certificate Number</label>
             <input type="text" id="schCert" placeholder="e.g. WB-REV-2026-9812" required />
           </div>
           <div class="form-group">
-            <label>Father's / Guardian's Occupation</label>
-            <input type="text" id="schOccupation" placeholder="e.g. Agriculture / Business" required />
+            <label for="schOccupation">Father's / Guardian's Occupation</label>
+            <input type="text" id="schOccupation" placeholder="e.g. Agriculture / Salaried / Business" required />
           </div>
           <div class="form-group full">
-            <label>College / University</label>
+            <label for="schCollege">College / University Name</label>
             <input type="text" id="schCollege" value="Techno Main Salt Lake" required />
           </div>
         </div>
 
-        <button type="submit" class="btn-apply">
-          <i class="fa-solid fa-paper-plane"></i> Submit Manual Application
+        <button type="submit" class="submit-btn">
+          <i class="fa-solid fa-paper-plane"></i> Submit Scholarship Application
         </button>
       </form>
     </div>
-  </div>
+  </main>
 
   <script>
     async function submitDirectScholarship() {
@@ -175,19 +193,29 @@
         incomeCertificateNo: document.getElementById('schCert').value,
         fatherOccupation: document.getElementById('schOccupation').value,
         collegeName: document.getElementById('schCollege').value,
-        consentGranted: false
+        consentGranted: true
       };
 
-      const res = await fetch('/api/scholarship/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (data.success) {
-        alert("Application submitted directly to Scholarship Department! Application ID: " + data.applicationId);
+      try {
+        const res = await fetch('/api/scholarship/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`🎉 Application successfully submitted!\n\nApplication ID: ${data.applicationId}\nStatus: UNDER_REVIEW\nAudit entry logged to DPDP Ledger.`);
+        } else {
+          alert("Submission failed: " + data.message);
+        }
+      } catch (err) {
+        alert("Server unreachable. Please make sure 'node server.js' is running.");
       }
     }
   </script>
+
+  <!-- Universal Script (Loads Co-Pilot) -->
+  <script src="app.js"></script>
 </body>
+
 </html>

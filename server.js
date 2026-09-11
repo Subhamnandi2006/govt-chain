@@ -3,185 +3,164 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// ==========================================
-// MOCK DATABASE / REGISTRIES
-// ==========================================
-const MOCK_AADHAAR_DB = {
+// --- IN-MEMORY REGISTRIES WITH SRIJOY RAY'S DATA ---
+const aadhaarDatabase = {
   "123456789012": {
-    aadhaarNumber: "123456789012",
-    fullName: "Srinjoy Roy",
+    name: "Srijoy Ray",
     dob: "2002-08-15",
     gender: "Male",
-    phone: "9876543210",
-    address: {
-      street: "12/A Salt Lake Sector V",
-      city: "Kolkata",
-      state: "West Bengal",
-      pincode: "700091"
-    },
-    photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+    phone: "+91 9876543210",
+    address: "12/A Salt Lake Sector V, Kolkata, WB",
+    pincode: "700091"
   }
 };
 
-const MOCK_INCOME_DB = {
+const incomeDatabase = {
   "123456789012": {
-    certificateNumber: "WB-REV-2026-9812",
-    beneficiaryName: "Srinjoy Roy",
+    certNumber: "WB-REV-2026-9812",
     annualIncome: 120000,
-    incomeBracket: "Below 1.5 Lakhs (EWS)",
-    financialYear: "2025-2026",
-    issuingAuthority: "Office of the Sub-Divisional Officer, Salt Lake",
+    validUpto: "2027-03-31",
     issueDate: "2026-01-10",
-    status: "VALID"
+    status: "Verified Active",
+    fatherOccupation: "Small Business / Service",
+    issuingAuthority: "Sub-Divisional Officer (Revenue), West Bengal"
   }
 };
 
-// In-memory submissions & audit trail
-const scholarshipApplications = [];
-const auditTrailLogs = [];
+let scholarshipSubmissions = [];
 
-// ==========================================
-// REST APIS FOR EXTERNAL PORTALS
-// ==========================================
-
-// 1. Mock Aadhaar API (UIDAI Simulator)
-app.get('/api/aadhaar/:id', (req, res) => {
-  const record = MOCK_AADHAAR_DB[req.params.id];
-  if (!record) {
-    return res.status(404).json({ success: false, message: "Aadhaar record not found" });
+let auditLogs = [
+  {
+    id: "AUD-8901",
+    timestamp: new Date(Date.now() - 3600000).toISOString(),
+    event: "Scholarship Consent Granted",
+    subject: "Aadhaar: 123456789012 (Srijoy Ray)",
+    requestedBy: "Ministry of Education (NSP Portal)",
+    scope: "Basic Identity & Income Proof",
+    status: "APPROVED_BY_USER",
+    receiptHash: "0x8fa2...c31b"
+  },
+  {
+    id: "AUD-8902",
+    timestamp: new Date(Date.now() - 1800000).toISOString(),
+    event: "Zero-Knowledge Eligibility Check",
+    subject: "Aadhaar: 123456789012 (Srijoy Ray)",
+    requestedBy: "Revenue Dept / Scholarship Service",
+    scope: "Annual Income ≤ 2,50,000 INR (Verified: ₹1,20,000)",
+    status: "VERIFIED_VALID",
+    receiptHash: "0x91b4...e881"
   }
-  res.json({ success: true, data: record });
-});
+];
 
-// Register / Enroll new Aadhaar record + Auto-link Revenue registry
-app.post('/api/aadhaar/enroll', (req, res) => {
-  const { fullName, dob, gender, phone, address, annualIncome } = req.body;
-  const aadhaarNumber = Math.floor(100000000000 + Math.random() * 900000000000).toString();
-
-  // 1. Save in UIDAI Registry
-  MOCK_AADHAAR_DB[aadhaarNumber] = {
-    aadhaarNumber,
-    fullName,
-    dob: dob || "2001-05-20",
-    gender: gender || "Male",
-    phone: phone || "9876500000",
-    address: address || {
-      street: "Main Road",
-      city: "Kolkata",
-      state: "West Bengal",
-      pincode: "700001"
-    },
-    photoUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
-  };
-
-  // 2. Automatically link in State Revenue Portal with a verified certificate
-  const incomeValue = annualIncome ? Number(annualIncome) : 140000;
-  MOCK_INCOME_DB[aadhaarNumber] = {
-    certificateNumber: "WB-REV-2026-" + Math.floor(1000 + Math.random() * 9000),
-    beneficiaryName: fullName,
-    annualIncome: incomeValue,
-    incomeBracket: incomeValue <= 150000 ? "Below 1.5 Lakhs (EWS)" : "General",
-    financialYear: "2025-2026",
-    issuingAuthority: "Office of the Sub-Divisional Officer",
-    issueDate: new Date().toISOString().split('T')[0],
-    status: "VALID"
-  };
-
-  res.json({
-    success: true,
-    aadhaarNumber,
-    fullName,
-    message: "Aadhaar enrolled and automatically linked to State Revenue Registry!"
-  });
-});
-
-// Endpoint to list all registered citizens for easy testing
-app.get('/api/citizens', (req, res) => {
-  const list = Object.values(MOCK_AADHAAR_DB).map(u => ({
-    aadhaarNumber: u.aadhaarNumber,
-    fullName: u.fullName
-  }));
-  res.json({ success: true, citizens: list });
-});
-
-
-
-// 2. Mock Income Certificate API (Revenue Dept Simulator)
-app.get('/api/income/:id', (req, res) => {
-  const record = MOCK_INCOME_DB[req.params.id];
-  if (!record) {
-    return res.status(404).json({ success: false, message: "Income record not found" });
-  }
-  res.json({ success: true, data: record });
-});
-
-// Issue / Create new Income Certificate record
-app.post('/api/income/issue', (req, res) => {
-  const { aadhaarNumber, beneficiaryName, annualIncome } = req.body;
-  const certificateNumber = "WB-REV-2026-" + Math.floor(1000 + Math.random() * 9000);
-
-  MOCK_INCOME_DB[aadhaarNumber] = {
-    certificateNumber,
-    beneficiaryName,
-    annualIncome: Number(annualIncome),
-    incomeBracket: Number(annualIncome) <= 150000 ? "EWS (< 1.5L)" : "General",
-    financialYear: "2025-2026",
-    issuingAuthority: "Office of the Sub-Divisional Officer, Salt Lake",
-    issueDate: new Date().toISOString().split('T')[0],
-    status: "VALID"
-  };
-
-  res.json({ success: true, certificateNumber, message: "Certificate issued successfully" });
-});
-
-
-// 3. Scholarship Application Submission API
-app.post('/api/scholarship/submit', (req, res) => {
-  const payload = req.body;
-  const applicationId = "SCH-MH-" + Math.floor(100000 + Math.random() * 900000);
-  
-  const applicationRecord = {
-    applicationId,
+function recordAuditLog(event, subject, requestedBy, scope, status) {
+  const hash = "0x" + Math.random().toString(16).substring(2, 10) + "..." + Math.random().toString(16).substring(2, 6);
+  const log = {
+    id: "AUD-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: new Date().toISOString(),
-    status: "UNDER_REVIEW",
-    data: payload
+    event,
+    subject,
+    requestedBy,
+    scope,
+    status,
+    receiptHash: hash
   };
+  auditLogs.unshift(log);
+  return log;
+}
 
-  scholarshipApplications.push(applicationRecord);
+// --- CONSOLIDATED API ROUTES ---
 
-  // Write audit trail
-  auditTrailLogs.unshift({
-    id: "LOG-" + Date.now(),
-    timestamp: new Date().toLocaleTimeString(),
-    event: "Scholarship Application Created",
-    applicant: payload.fullName,
-    aadhaarRef: payload.aadhaarNumber,
-    incomeCertRef: payload.incomeCertificateNo,
-    consentGranted: payload.consentGranted === true,
-    outcome: "Success (Submitted to Higher Education Dept)"
-  });
-
-  res.json({
-    success: true,
-    applicationId,
-    message: "Scholarship application successfully submitted via Govt Chain orchestration layer."
-  });
+// Aadhaar API
+app.get('/api/aadhaar/:id', (req, res) => {
+  const record = aadhaarDatabase[req.params.id];
+  if (!record) return res.status(404).json({ error: "Aadhaar record not found" });
+  recordAuditLog("Aadhaar Data Verified", `UID: ${req.params.id} (${record.name})`, "Citizen Consent Token", "Name, DOB, Address", "SUCCESS");
+  res.json({ success: true, data: record });
 });
 
-// 4. Audit Log Endpoint (For Admin & Compliance Review)
+app.post('/api/enroll-aadhaar', (req, res) => {
+  const { aadhaarNumber, name, dob, gender, phone, address, pincode } = req.body;
+  if (!aadhaarNumber || !name) return res.status(400).json({ error: "Missing required fields" });
+  aadhaarDatabase[aadhaarNumber] = { name, dob, gender, phone, address, pincode };
+  recordAuditLog("New Aadhaar Enrollment", `UID: ${aadhaarNumber} (${name})`, "UIDAI Enrollment Desk", "Full Demographic Record", "ENROLLED");
+  res.json({ success: true, message: "Aadhaar enrolled successfully", data: aadhaarDatabase[aadhaarNumber] });
+});
+
+// Income & Revenue API
+app.get('/api/income/:id', (req, res) => {
+  const record = incomeDatabase[req.params.id];
+  if (!record) return res.status(404).json({ error: "Income certificate record not found" });
+  recordAuditLog("Income Proof Checked", `UID: ${req.params.id}`, "Citizen Request", `Cert: ${record.certNumber}, Income: ₹${record.annualIncome}`, "SUCCESS");
+  res.json({ success: true, data: record });
+});
+
+app.post('/api/issue-certificate', (req, res) => {
+  const { aadhaarNumber, certNumber, annualIncome, validUpto, fatherOccupation } = req.body;
+  if (!aadhaarNumber || !annualIncome) return res.status(400).json({ error: "Missing required fields" });
+  incomeDatabase[aadhaarNumber] = {
+    certNumber: certNumber || `WB-REV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+    annualIncome: Number(annualIncome),
+    validUpto: validUpto || "2027-03-31",
+    issueDate: new Date().toISOString().split('T')[0],
+    status: "Verified Active",
+    fatherOccupation: fatherOccupation || "Not Specified",
+    issuingAuthority: "Sub-Divisional Officer (Revenue), West Bengal"
+  };
+  recordAuditLog("Income Certificate Issued", `UID: ${aadhaarNumber}`, "Revenue Tehsildar Desk", "Income Assessment", "ISSUED");
+  res.json({ success: true, message: "Certificate issued successfully", data: incomeDatabase[aadhaarNumber] });
+});
+
+// Scholarship API
+app.post('/api/scholarships', (req, res) => {
+  const submission = {
+    id: "SCH-" + (1000 + scholarshipSubmissions.length + 1),
+    submittedAt: new Date().toISOString(),
+    ...req.body
+  };
+  scholarshipSubmissions.push(submission);
+  recordAuditLog("Scholarship Submitted", `Applicant: ${submission.name || 'Srijoy Ray'}`, "National Scholarship Portal", "Scholarship Application Package", "PENDING_VERIFICATION");
+  res.json({ success: true, message: "Scholarship application submitted successfully", applicationId: submission.id, data: submission });
+});
+
+// Audit API
 app.get('/api/audit-logs', (req, res) => {
-  res.json({ success: true, logs: auditTrailLogs });
-});
-``
-// Server listener
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Govt Chain Server running locally at http://localhost:${PORT}`);
-  console.log(`For Mobile access on your Wi-Fi: http://<YOUR-PC-IP>:${PORT}`);
+  const { search, status } = req.query;
+  let result = auditLogs;
+  if (search) {
+    const s = String(search).toLowerCase();
+    result = result.filter(l =>
+      l.event.toLowerCase().includes(s) ||
+      l.subject.toLowerCase().includes(s) ||
+      l.requestedBy.toLowerCase().includes(s)
+    );
+  }
+  if (status && status !== 'all') {
+    result = result.filter(l => l.status === status);
+  }
+  res.json({ success: true, logs: result, total: result.length });
 });
 
+// --- STATIC FRONTEND ROUTES ---
+const PUB = path.join(__dirname, 'public');
+const staticOpts = { index: false };
+
+app.get('/', (req, res) => res.sendFile(path.join(PUB, 'index.html')));
+app.get('/scholarship', (req, res) => res.sendFile(path.join(PUB, 'scholarship.html')));
+app.get('/aadhaar', (req, res) => res.sendFile(path.join(PUB, 'aadhaar.html')));
+app.get('/income', (req, res) => res.sendFile(path.join(PUB, 'income.html')));
+app.get('/audit', (req, res) => res.sendFile(path.join(PUB, 'audit.html')));
+
+// Assets & static resources
+app.use(express.static(PUB, staticOpts));
+
+// Fallback: unknown routes go to index
+app.get('*', (req, res) => res.sendFile(path.join(PUB, 'index.html')));
+
+app.listen(PORT, () => {
+  console.log(`Gov-Chain running on port ${PORT}`);
+});
